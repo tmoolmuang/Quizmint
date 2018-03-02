@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Quizmint.AssignmentAnswer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserSelectedAnswerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserSelectedTrue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserEnteredText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCorrect)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Question.QuestionText)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserSelectedAnswerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserSelectedTrue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserEnteredText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsCorrect)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assignment.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Question.QuestionText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

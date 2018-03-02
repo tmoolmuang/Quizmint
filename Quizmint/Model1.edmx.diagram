@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6f419f9891df439f9fb6b1b13b260806" Name="Diagram1">
+        <EntityTypeShape EntityType="ShamuModel.Answer" Width="1.5" PointX="10.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.Assignment" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.Maker" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.Project" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.Question" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.QuestionType" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.sysdiagram" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShamuModel.User" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="ShamuModel.FK_Answer_Question" ManuallyRouted="false" />
+        <AssociationConnector Association="ShamuModel.FK_Assignment_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="ShamuModel.FK_Assignment_User" ManuallyRouted="false" />
+        <AssociationConnector Association="ShamuModel.FK_Project_Maker" ManuallyRouted="false" />
+        <AssociationConnector Association="ShamuModel.FK_Question_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="ShamuModel.FK_Question_QuestionType" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ShamuModel.AssignmentAnswer" Width="1.5" PointX="10.375" PointY="5.75" />
+        <AssociationConnector Association="ShamuModel.FK_AssignmentAnswer_Assignment" />
+        <AssociationConnector Association="ShamuModel.FK_AssignmentAnswer_Question" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

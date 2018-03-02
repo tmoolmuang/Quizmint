@@ -25,7 +25,8 @@ namespace Quizmint
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap.css",
-                      "~/Content/bootstrap-darkly.css",
+                      //"~/Content/bootstrap-darkly.css", 
+                      "~/Content/bootstrap-slate.css",
                       "~/Content/site.css"));
         }
     }
