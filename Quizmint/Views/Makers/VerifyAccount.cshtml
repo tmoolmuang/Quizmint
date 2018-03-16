@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "VerifyAccount";
+}
+
+<h2>Verify Account</h2>
+
+@if (ViewBag.Message == null)
+{
+    <div class="alert-success">
+        <strong>Your account has been sucessfully verified.</strong>
+    </div>
+    <br />
+    @Html.ActionLink("Login", "Login", "Makers", null, new { @class = "btn btn-primary" })
+}
+else
+{
+    <div class="alert-danger">
+        <strong>Error! </strong>@ViewBag.Message
+    </div>
+}
+
