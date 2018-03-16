@@ -7,17 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quizmint
+namespace Quizmint.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class Answer
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Id { get; set; }
+        public int QuestionId { get; set; }
+        public string AnswerText { get; set; }
+        public Nullable<bool> IsCorrectAnswer { get; set; }
+    
+        public virtual Question Question { get; set; }
     }
 }

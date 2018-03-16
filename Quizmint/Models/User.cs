@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quizmint
+namespace Quizmint.Models
 {
     using System;
     using System.Collections.Generic;

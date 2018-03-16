@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Quizmint;
+using Quizmint.Models;
 
 namespace Quizmint.Controllers
 {
@@ -46,7 +46,7 @@ namespace Quizmint.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email")] Maker maker)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,Password,IsEmailVerified,ActivationCode,ResetPasswordCode")] Maker maker)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace Quizmint.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email")] Maker maker)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,Password,IsEmailVerified,ActivationCode,ResetPasswordCode")] Maker maker)
         {
             if (ModelState.IsValid)
             {

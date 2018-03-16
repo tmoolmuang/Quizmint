@@ -154,19 +154,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Answer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Assignment.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AssignmentAnswer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AnswersController.cs" />
     <Compile Include="Controllers\AssignmentAnswersController.cs" />
     <Compile Include="Controllers\AssignmentsController.cs" />
@@ -174,45 +165,45 @@
     <Compile Include="Controllers\MakersController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
-    <Compile Include="Controllers\QuestionTypesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Maker.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+    <Compile Include="Models\Answer.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Context.cs">
+    <Compile Include="Models\Assignment.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssignmentAnswer.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maker.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelAll.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
+      <DependentUpon>ModelAll.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.cs">
+    <Compile Include="Models\ModelAll.Designer.cs">
+      <DependentUpon>ModelAll.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Compile Include="Models\Project.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
     </Compile>
-    <Compile Include="Project.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuestionType.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>ModelAll.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Question.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="QuestionType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-darkly.css" />
@@ -229,15 +220,15 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Model1.Context.tt">
+    <Content Include="Models\ModelAll.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>ModelAll.edmx</DependentUpon>
+      <LastGenOutput>ModelAll.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model1.tt">
+    <Content Include="Models\ModelAll.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>ModelAll.edmx</DependentUpon>
+      <LastGenOutput>ModelAll1.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -261,12 +252,12 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <EntityDeploy Include="Model1.edmx">
+    <EntityDeploy Include="Models\ModelAll.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelAll.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Content Include="Models\ModelAll.edmx.diagram">
+      <DependentUpon>ModelAll.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -314,36 +305,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Makers\Create.cshtml" />
-    <Content Include="Views\Makers\Delete.cshtml" />
-    <Content Include="Views\Makers\Details.cshtml" />
-    <Content Include="Views\Makers\Edit.cshtml" />
-    <Content Include="Views\Makers\Index.cshtml" />
-    <Content Include="Views\Projects\Create.cshtml" />
-    <Content Include="Views\Projects\Delete.cshtml" />
-    <Content Include="Views\Projects\Details.cshtml" />
-    <Content Include="Views\Projects\Edit.cshtml" />
-    <Content Include="Views\Projects\Index.cshtml" />
-    <Content Include="Views\QuestionTypes\Create.cshtml" />
-    <Content Include="Views\QuestionTypes\Delete.cshtml" />
-    <Content Include="Views\QuestionTypes\Details.cshtml" />
-    <Content Include="Views\QuestionTypes\Edit.cshtml" />
-    <Content Include="Views\QuestionTypes\Index.cshtml" />
-    <Content Include="Views\Questions\Create.cshtml" />
-    <Content Include="Views\Questions\Delete.cshtml" />
-    <Content Include="Views\Questions\Details.cshtml" />
-    <Content Include="Views\Questions\Edit.cshtml" />
-    <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\Answers\Create.cshtml" />
     <Content Include="Views\Answers\Delete.cshtml" />
     <Content Include="Views\Answers\Details.cshtml" />
     <Content Include="Views\Answers\Edit.cshtml" />
     <Content Include="Views\Answers\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Assignments\Create.cshtml" />
     <Content Include="Views\Assignments\Delete.cshtml" />
     <Content Include="Views\Assignments\Details.cshtml" />
@@ -354,10 +320,29 @@
     <Content Include="Views\AssignmentAnswers\Details.cshtml" />
     <Content Include="Views\AssignmentAnswers\Edit.cshtml" />
     <Content Include="Views\AssignmentAnswers\Index.cshtml" />
+    <Content Include="Views\Makers\Create.cshtml" />
+    <Content Include="Views\Makers\Delete.cshtml" />
+    <Content Include="Views\Makers\Details.cshtml" />
+    <Content Include="Views\Makers\Edit.cshtml" />
+    <Content Include="Views\Makers\Index.cshtml" />
+    <Content Include="Views\Questions\Create.cshtml" />
+    <Content Include="Views\Questions\Delete.cshtml" />
+    <Content Include="Views\Questions\Details.cshtml" />
+    <Content Include="Views\Questions\Edit.cshtml" />
+    <Content Include="Views\Questions\Index.cshtml" />
+    <Content Include="Views\Projects\Create.cshtml" />
+    <Content Include="Views\Projects\Delete.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
+    <Content Include="Views\Projects\Edit.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

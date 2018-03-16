@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quizmint
+namespace Quizmint.Models
 {
     using System;
     using System.Collections.Generic;
@@ -29,9 +29,9 @@ namespace Quizmint
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }
-        public virtual Project Project { get; set; }
-        public virtual QuestionType QuestionType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssignmentAnswer> AssignmentAnswers { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual QuestionType QuestionType { get; set; }
     }
 }

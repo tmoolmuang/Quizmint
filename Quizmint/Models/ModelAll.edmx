@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ShamuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="QuizmintModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Answer">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,9 +42,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" />
+          <Property Name="ResetPasswordCode" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -71,16 +75,6 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -187,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ShamuModelStoreContainer">
+        <EntityContainer Name="QuizmintModelStoreContainer">
           <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Assignment" EntityType="Self.Assignment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AssignmentAnswer" EntityType="Self.AssignmentAnswer" Schema="dbo" store:Type="Tables" />
@@ -195,7 +189,6 @@
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuestionType" EntityType="Self.QuestionType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Answer_Question" Association="Self.FK_Answer_Question">
             <End Role="Question" EntitySet="Question" />
@@ -230,10 +223,11 @@
             <End Role="Question" EntitySet="Question" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ShamuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="QuizmintModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Answer">
           <Key>
             <PropertyRef Name="Id" />
@@ -256,16 +250,34 @@
           <Property Name="Score" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Project" Relationship="Self.FK_Assignment_Project" FromRole="Assignment" ToRole="Project" />
           <NavigationProperty Name="User" Relationship="Self.FK_Assignment_User" FromRole="Assignment" ToRole="User" />
-          <NavigationProperty Name="AssignmentAnswers" Relationship="ShamuModel.FK_AssignmentAnswer_Assignment" FromRole="Assignment" ToRole="AssignmentAnswer" />
+          <NavigationProperty Name="AssignmentAnswers" Relationship="Self.FK_AssignmentAnswer_Assignment" FromRole="Assignment" ToRole="AssignmentAnswer" />
+        </EntityType>
+        <EntityType Name="AssignmentAnswer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssignmentId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="UserSelectedAnswerId" Type="Int32" />
+          <Property Name="UserSelectedTrue" Type="Boolean" />
+          <Property Name="UserEnteredText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsCorrect" Type="Boolean" />
+          <NavigationProperty Name="Assignment" Relationship="Self.FK_AssignmentAnswer_Assignment" FromRole="AssignmentAnswer" ToRole="Assignment" />
+          <NavigationProperty Name="Question" Relationship="Self.FK_AssignmentAnswer_Question" FromRole="AssignmentAnswer" ToRole="Question" />
         </EntityType>
         <EntityType Name="Maker">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" />
+          <Property Name="ResetPasswordCode" Type="Guid" />
           <NavigationProperty Name="Projects" Relationship="Self.FK_Project_Maker" FromRole="Maker" ToRole="Project" />
         </EntityType>
         <EntityType Name="Project">
@@ -290,9 +302,9 @@
           <Property Name="QuestionTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsTrue" Type="Boolean" />
           <NavigationProperty Name="Answers" Relationship="Self.FK_Answer_Question" FromRole="Question" ToRole="Answer" />
+          <NavigationProperty Name="AssignmentAnswers" Relationship="Self.FK_AssignmentAnswer_Question" FromRole="Question" ToRole="AssignmentAnswer" />
           <NavigationProperty Name="Project" Relationship="Self.FK_Question_Project" FromRole="Question" ToRole="Project" />
           <NavigationProperty Name="QuestionType" Relationship="Self.FK_Question_QuestionType" FromRole="Question" ToRole="QuestionType" />
-          <NavigationProperty Name="AssignmentAnswers" Relationship="ShamuModel.FK_AssignmentAnswer_Question" FromRole="Question" ToRole="AssignmentAnswer" />
         </EntityType>
         <EntityType Name="QuestionType">
           <Key>
@@ -301,16 +313,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_Question_QuestionType" FromRole="QuestionType" ToRole="Question" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -358,6 +360,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AssignmentAnswer_Assignment">
+          <End Role="Assignment" Type="Self.Assignment" Multiplicity="1" />
+          <End Role="AssignmentAnswer" Type="Self.AssignmentAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assignment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssignmentAnswer">
+              <PropertyRef Name="AssignmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssignmentAnswer_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="AssignmentAnswer" Type="Self.AssignmentAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssignmentAnswer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Project_Maker">
           <End Role="Maker" Type="Self.Maker" Multiplicity="1" />
           <End Role="Project" Type="Self.Project" Multiplicity="*" />
@@ -397,11 +423,11 @@
         <EntityContainer Name="ShamuEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Answers" EntityType="Self.Answer" />
           <EntitySet Name="Assignments" EntityType="Self.Assignment" />
+          <EntitySet Name="AssignmentAnswers" EntityType="Self.AssignmentAnswer" />
           <EntitySet Name="Makers" EntityType="Self.Maker" />
           <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="Questions" EntityType="Self.Question" />
           <EntitySet Name="QuestionTypes" EntityType="Self.QuestionType" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Answer_Question" Association="Self.FK_Answer_Question">
             <End Role="Question" EntitySet="Questions" />
@@ -415,6 +441,14 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Assignment" EntitySet="Assignments" />
           </AssociationSet>
+          <AssociationSet Name="FK_AssignmentAnswer_Assignment" Association="Self.FK_AssignmentAnswer_Assignment">
+            <End Role="Assignment" EntitySet="Assignments" />
+            <End Role="AssignmentAnswer" EntitySet="AssignmentAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssignmentAnswer_Question" Association="Self.FK_AssignmentAnswer_Question">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="AssignmentAnswer" EntitySet="AssignmentAnswers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Project_Maker" Association="Self.FK_Project_Maker">
             <End Role="Maker" EntitySet="Makers" />
             <End Role="Project" EntitySet="Projects" />
@@ -427,62 +461,15 @@
             <End Role="QuestionType" EntitySet="QuestionTypes" />
             <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
-          <EntitySet Name="AssignmentAnswers" EntityType="ShamuModel.AssignmentAnswer" />
-          <AssociationSet Name="FK_AssignmentAnswer_Assignment" Association="ShamuModel.FK_AssignmentAnswer_Assignment">
-            <End Role="Assignment" EntitySet="Assignments" />
-            <End Role="AssignmentAnswer" EntitySet="AssignmentAnswers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AssignmentAnswer_Question" Association="ShamuModel.FK_AssignmentAnswer_Question">
-            <End Role="Question" EntitySet="Questions" />
-            <End Role="AssignmentAnswer" EntitySet="AssignmentAnswers" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AssignmentAnswer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AssignmentId" Type="Int32" Nullable="false" />
-          <Property Name="QuestionId" Type="Int32" Nullable="false" />
-          <Property Name="UserSelectedAnswerId" Type="Int32" />
-          <Property Name="UserSelectedTrue" Type="Boolean" />
-          <Property Name="UserEnteredText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsCorrect" Type="Boolean" />
-          <NavigationProperty Name="Assignment" Relationship="ShamuModel.FK_AssignmentAnswer_Assignment" FromRole="AssignmentAnswer" ToRole="Assignment" />
-          <NavigationProperty Name="Question" Relationship="ShamuModel.FK_AssignmentAnswer_Question" FromRole="AssignmentAnswer" ToRole="Question" />
-        </EntityType>
-        <Association Name="FK_AssignmentAnswer_Assignment">
-          <End Type="ShamuModel.Assignment" Role="Assignment" Multiplicity="1" />
-          <End Type="ShamuModel.AssignmentAnswer" Role="AssignmentAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Assignment">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AssignmentAnswer">
-              <PropertyRef Name="AssignmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AssignmentAnswer_Question">
-          <End Type="ShamuModel.Question" Role="Question" Multiplicity="1" />
-          <End Type="ShamuModel.AssignmentAnswer" Role="AssignmentAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AssignmentAnswer">
-              <PropertyRef Name="QuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ShamuModelStoreContainer" CdmEntityContainer="ShamuEntities">
+        <EntityContainerMapping StorageEntityContainer="QuizmintModelStoreContainer" CdmEntityContainer="ShamuEntities">
           <EntitySetMapping Name="Answers">
-            <EntityTypeMapping TypeName="ShamuModel.Answer">
+            <EntityTypeMapping TypeName="QuizmintModel.Answer">
               <MappingFragment StoreEntitySet="Answer">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
@@ -492,7 +479,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Assignments">
-            <EntityTypeMapping TypeName="ShamuModel.Assignment">
+            <EntityTypeMapping TypeName="QuizmintModel.Assignment">
               <MappingFragment StoreEntitySet="Assignment">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
@@ -503,18 +490,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AssignmentAnswers">
+            <EntityTypeMapping TypeName="QuizmintModel.AssignmentAnswer">
+              <MappingFragment StoreEntitySet="AssignmentAnswer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AssignmentId" ColumnName="AssignmentId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="UserSelectedAnswerId" ColumnName="UserSelectedAnswerId" />
+                <ScalarProperty Name="UserSelectedTrue" ColumnName="UserSelectedTrue" />
+                <ScalarProperty Name="UserEnteredText" ColumnName="UserEnteredText" />
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Makers">
-            <EntityTypeMapping TypeName="ShamuModel.Maker">
+            <EntityTypeMapping TypeName="QuizmintModel.Maker">
               <MappingFragment StoreEntitySet="Maker">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="ResetPasswordCode" ColumnName="ResetPasswordCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Projects">
-            <EntityTypeMapping TypeName="ShamuModel.Project">
+            <EntityTypeMapping TypeName="QuizmintModel.Project">
               <MappingFragment StoreEntitySet="Project">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
@@ -524,7 +528,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Questions">
-            <EntityTypeMapping TypeName="ShamuModel.Question">
+            <EntityTypeMapping TypeName="QuizmintModel.Question">
               <MappingFragment StoreEntitySet="Question">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
@@ -535,44 +539,20 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="QuestionTypes">
-            <EntityTypeMapping TypeName="ShamuModel.QuestionType">
+            <EntityTypeMapping TypeName="QuizmintModel.QuestionType">
               <MappingFragment StoreEntitySet="QuestionType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ShamuModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ShamuModel.User">
+            <EntityTypeMapping TypeName="QuizmintModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AssignmentAnswers">
-            <EntityTypeMapping TypeName="ShamuModel.AssignmentAnswer">
-              <MappingFragment StoreEntitySet="AssignmentAnswer">
-                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
-                <ScalarProperty Name="UserEnteredText" ColumnName="UserEnteredText" />
-                <ScalarProperty Name="UserSelectedTrue" ColumnName="UserSelectedTrue" />
-                <ScalarProperty Name="UserSelectedAnswerId" ColumnName="UserSelectedAnswerId" />
-                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
-                <ScalarProperty Name="AssignmentId" ColumnName="AssignmentId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

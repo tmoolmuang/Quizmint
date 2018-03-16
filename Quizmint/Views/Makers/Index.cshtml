@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Quizmint.Maker>
+﻿@model IEnumerable<Quizmint.Models.Maker>
 
 @{
     ViewBag.Title = "Index";
@@ -20,6 +20,18 @@
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEmailVerified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivationCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResetPasswordCode)
+        </th>
         <th></th>
     </tr>
 
@@ -33,6 +45,18 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsEmailVerified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivationCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResetPasswordCode)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

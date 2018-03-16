@@ -7,25 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quizmint
+namespace Quizmint.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Maker
+    public partial class QuestionType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Maker()
+        public QuestionType()
         {
-            this.Projects = new HashSet<Project>();
+            this.Questions = new HashSet<Question>();
         }
     
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
     }
 }

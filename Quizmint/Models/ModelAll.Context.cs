@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quizmint
+namespace Quizmint.Models
 {
     using System;
     using System.Data.Entity;
@@ -27,12 +27,11 @@ namespace Quizmint
     
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Assignment> Assignments { get; set; }
+        public virtual DbSet<AssignmentAnswer> AssignmentAnswers { get; set; }
         public virtual DbSet<Maker> Makers { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionType> QuestionTypes { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<AssignmentAnswer> AssignmentAnswers { get; set; }
     }
 }

@@ -7,23 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Quizmint
+namespace Quizmint.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class QuestionType
+    public partial class AssignmentAnswer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QuestionType()
-        {
-            this.Questions = new HashSet<Question>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int AssignmentId { get; set; }
+        public int QuestionId { get; set; }
+        public Nullable<int> UserSelectedAnswerId { get; set; }
+        public Nullable<bool> UserSelectedTrue { get; set; }
+        public string UserEnteredText { get; set; }
+        public Nullable<bool> IsCorrect { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual Assignment Assignment { get; set; }
+        public virtual Question Question { get; set; }
     }
 }
