@@ -118,6 +118,8 @@ namespace Quizmint.Controllers
                         cookie.HttpOnly = true;
                         Response.Cookies.Add(cookie);
 
+                        Session["MakerId"] = maker.Id;
+
                         if (Url.IsLocalUrl(returnUrl))
                         {
                             //redirect to [Authorized] view where it was initially intended 
@@ -150,6 +152,8 @@ namespace Quizmint.Controllers
         [Authorize]
         public ActionResult Logout()
         {
+            Session.RemoveAll(); 
+            Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
@@ -341,13 +345,9 @@ namespace Quizmint.Controllers
         }
 
         // GET: Makers/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Maker maker = db.Makers.Find(id);
+            Maker maker = db.Makers.Find(Session["MakerId"]);
             if (maker == null)
             {
                 return HttpNotFound();
@@ -398,16 +398,26 @@ namespace Quizmint.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,Password,IsEmailVerified,ActivationCode,ResetPasswordCode")] Maker maker)
+        public ActionResult Edit(Maker maker)
         {
-            if (ModelState.IsValid)
+            string message = null;
+            Maker this_maker = db.Makers.Find(maker.Id);
+            if (this_maker != null)
             {
-                db.Entry(maker).State = EntityState.Modified;
+                this_maker.FirstName = maker.FirstName;
+                this_maker.LastName = maker.LastName;
+                db.Configuration.ValidateOnSaveEnabled = false;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
-            return View(maker);
-        }
+            else
+            {
+                message = "Maker not found";
+            }
+
+            ViewBag.Message = message;
+            return View();
+         }
 
         // GET: Makers/Delete/5
         public ActionResult Delete(int? id)

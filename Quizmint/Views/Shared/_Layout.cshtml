@@ -36,6 +36,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         @if (Request.IsAuthenticated)
                         {
+                            <li>@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Details", "Makers")</li>
                             <li>@Html.ActionLink("Logout", "Logout", "Makers")</li>
                         }
                         else
