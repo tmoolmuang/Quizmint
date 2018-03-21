@@ -21,6 +21,17 @@ namespace Quizmint.Controllers
             return View(questions.ToList());
         }
 
+        public ActionResult QuestionsByProject(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Projects");
+
+            }
+            var questions = db.Questions.Include(q => q.Project).Where(q => q.ProjectId == id).Include(q => q.QuestionType);
+            return View("Index", questions.ToList());
+        }
+
         // GET: Questions/Details/5
         public ActionResult Details(int? id)
         {
