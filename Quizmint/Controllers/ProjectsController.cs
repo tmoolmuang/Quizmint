@@ -10,24 +10,25 @@ using Quizmint.Models;
 
 namespace Quizmint.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ShamuEntities db = new ShamuEntities();
 
         // GET: Projects
-        public ActionResult Index()
-        {
-            var projects = db.Projects.Include(p => p.Maker);
-            return View(projects.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var projects = db.Projects.Include(p => p.Maker);
+        //    return View(projects.ToList());
+        //}
 
         public ActionResult ProjectsByMaker(int? id)
         {
-            if (id == null)
+            if (id == null || Int32.Parse(Session["MakerId"].ToString()) != id)
             {
                 return RedirectToAction("Index", "Home");
-
             }
+
             var projects = db.Projects.Include(p => p.Maker).Where(p => p.MakerId == id);
             return View("Index", projects.ToList());
         }
@@ -39,18 +40,21 @@ namespace Quizmint.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Project project = db.Projects.Find(id);
-            if (project == null)
+            if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
                 return HttpNotFound();
             }
+
+            Session["ProjectId"] = id;
             return View(project);
         }
 
         // GET: Projects/Create
         public ActionResult Create()
         {
-            ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName");
+            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName");
             return View();
         }
 
@@ -61,14 +65,15 @@ namespace Quizmint.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,ProjectName,MakerId,QuestionCount")] Project project)
         {
+            project.MakerId = Int32.Parse(Session["MakerId"].ToString());
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = project.Id });
             }
 
-            ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
+            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
             return View(project);
         }
 
@@ -80,11 +85,11 @@ namespace Quizmint.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
-            if (project == null)
+            if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
                 return HttpNotFound();
             }
-            ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
+            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
             return View(project);
         }
 
@@ -95,13 +100,14 @@ namespace Quizmint.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ProjectName,MakerId,QuestionCount")] Project project)
         {
-            if (ModelState.IsValid)
+             project.MakerId = Int32.Parse(Session["MakerId"].ToString());
+           if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = project.Id });
             }
-            ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
+            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
             return View(project);
         }
 
@@ -113,7 +119,7 @@ namespace Quizmint.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
-            if (project == null)
+            if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
                 return HttpNotFound();
             }
@@ -126,9 +132,10 @@ namespace Quizmint.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
+            //TODO: must cascade delete question, answer, etc.
             db.Projects.Remove(project);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectsByMaker", new { id = Int32.Parse(Session["MakerId"].ToString()) });
         }
 
         protected override void Dispose(bool disposing)

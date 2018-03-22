@@ -338,15 +338,21 @@ namespace Quizmint.Controllers
                 smtp.Send(message);
         }
 
-        // GET: Makers
-        public ActionResult Index()
-        {
-            return View(db.Makers.ToList());
-        }
+        // GET: Makers :TODO delete?
+        //public ActionResult Index()
+        //{
+        //    return View(db.Makers.ToList());
+        //}
 
         // GET: Makers/Details/5
-        public ActionResult Details()
+        [Authorize]
+        public ActionResult Details(int? id)
         {
+            if (id == null || id != Int32.Parse(Session["MakerId"].ToString()))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             Maker maker = db.Makers.Find(Session["MakerId"]);
             if (maker == null)
             {
@@ -355,33 +361,34 @@ namespace Quizmint.Controllers
             return View(maker);
         }
 
-        // GET: Makers/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //// GET: Makers/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Makers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,Password,IsEmailVerified,ActivationCode,ResetPasswordCode")] Maker maker)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Makers.Add(maker);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //// POST: Makers/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,Password,IsEmailVerified,ActivationCode,ResetPasswordCode")] Maker maker)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Makers.Add(maker);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            return View(maker);
-        }
+        //    return View(maker);
+        //}
 
         // GET: Makers/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id != Int32.Parse(Session["MakerId"].ToString()))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -419,30 +426,30 @@ namespace Quizmint.Controllers
             return View();
          }
 
-        // GET: Makers/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Maker maker = db.Makers.Find(id);
-            if (maker == null)
-            {
-                return HttpNotFound();
-            }
-            return View(maker);
-        }
+        //// GET: Makers/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Maker maker = db.Makers.Find(id);
+        //    if (maker == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(maker);
+        //}
 
-        // POST: Makers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Maker maker = db.Makers.Find(id);
-            db.Makers.Remove(maker);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }       
+        //// POST: Makers/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Maker maker = db.Makers.Find(id);
+        //    db.Makers.Remove(maker);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}       
     }
 }
