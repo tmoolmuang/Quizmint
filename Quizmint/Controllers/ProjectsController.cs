@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -14,13 +16,6 @@ namespace Quizmint.Controllers
     public class ProjectsController : Controller
     {
         private ShamuEntities db = new ShamuEntities();
-
-        // GET: Projects
-        //public ActionResult Index()
-        //{
-        //    var projects = db.Projects.Include(p => p.Maker);
-        //    return View(projects.ToList());
-        //}
 
         public ActionResult ProjectsByMaker(int? id)
         {
@@ -132,7 +127,16 @@ namespace Quizmint.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
-            //TODO: must cascade delete question, answer, etc.
+            Question[] questions = db.Questions.Where(q => q.ProjectId == id).ToArray();
+            foreach (Question q in questions)
+            {
+                Answer[] answers = db.Answers.Where(a => a.QuestionId == q.Id).ToArray();
+                foreach (Answer a in answers)
+                {
+                    db.Answers.Remove(a);
+                }
+                db.Questions.Remove(q);
+            }
             db.Projects.Remove(project);
             db.SaveChanges();
             return RedirectToAction("ProjectsByMaker", new { id = Int32.Parse(Session["MakerId"].ToString()) });

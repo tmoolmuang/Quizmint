@@ -338,12 +338,6 @@ namespace Quizmint.Controllers
                 smtp.Send(message);
         }
 
-        // GET: Makers :TODO delete?
-        //public ActionResult Index()
-        //{
-        //    return View(db.Makers.ToList());
-        //}
-
         // GET: Makers/Details/5
         [Authorize]
         public ActionResult Details(int? id)
@@ -360,29 +354,6 @@ namespace Quizmint.Controllers
             }
             return View(maker);
         }
-
-        //// GET: Makers/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Makers/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,Password,IsEmailVerified,ActivationCode,ResetPasswordCode")] Maker maker)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Makers.Add(maker);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(maker);
-        //}
 
         // GET: Makers/Edit/5
         [Authorize]
@@ -427,6 +398,7 @@ namespace Quizmint.Controllers
          }
 
         //// GET: Makers/Delete/5
+        //[Authorize]
         //public ActionResult Delete(int? id)
         //{
         //    if (id == null)
@@ -450,6 +422,6 @@ namespace Quizmint.Controllers
         //    db.Makers.Remove(maker);
         //    db.SaveChanges();
         //    return RedirectToAction("Index");
-        //}       
+        //}
     }
 }
