@@ -386,7 +386,7 @@ namespace Quizmint.Controllers
                 this_maker.LastName = maker.LastName;
                 db.Configuration.ValidateOnSaveEnabled = false;
                 db.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Details", new { id = maker.Id });
             }
             else
             {

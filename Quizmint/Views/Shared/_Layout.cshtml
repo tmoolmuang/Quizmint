@@ -20,17 +20,14 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         @if (Request.IsAuthenticated && Session["MakerId"] != null)
-                        {
-                            @*<li>@Html.ActionLink("Makers", "Index", "Makers")</li>*@
-                            
-                            <li>@Html.ActionLink("Projects", "ProjectsByMaker", "Projects", new { id = Session["MakerId"] }, null)</li>
+                        {            
+                            <li>@Html.ActionLink("Projects", "Index", "Projects", new { id = Session["MakerId"] }, null)</li>
 
                             if (ViewContext.RouteData.Values["controller"].ToString() == "Projects" &&
                                 ViewContext.RouteData.Values["action"].ToString() == "Details")
                             {
-                                <li>@Html.ActionLink("Questions", "Index", "Questions")</li>
+                                <li>@Html.ActionLink("Questions", "Index", "Questions", new { id = Session["ProjectId"] }, null)</li>
                             }
 
                             @*<li>@Html.ActionLink("Questions", "Index", "Questions")</li>

@@ -17,16 +17,18 @@ namespace Quizmint.Controllers
     {
         private ShamuEntities db = new ShamuEntities();
 
-        public ActionResult ProjectsByMaker(int? id)
+        public ActionResult Index(int? id)
         {
+            //projects by maker
             if (id == null || Int32.Parse(Session["MakerId"].ToString()) != id)
             {
-                return RedirectToAction("Index", "Home");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             var projects = db.Projects.Include(p => p.Maker).Where(p => p.MakerId == id);
-            return View("Index", projects.ToList());
+            return View(projects.ToList());
         }
+
 
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
@@ -139,7 +141,7 @@ namespace Quizmint.Controllers
             }
             db.Projects.Remove(project);
             db.SaveChanges();
-            return RedirectToAction("ProjectsByMaker", new { id = Int32.Parse(Session["MakerId"].ToString()) });
+            return RedirectToAction("Index", new { id = Int32.Parse(Session["MakerId"].ToString()) });
         }
 
         protected override void Dispose(bool disposing)

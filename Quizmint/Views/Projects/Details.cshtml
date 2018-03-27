@@ -37,7 +37,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Questions", "QuestionsByProject", "Questions", new { id = Model.Id }, null) |
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "ProjectsByMaker", "Projects", new { id = Session["MakerId"] }, null)
+    @Html.ActionLink("Questions", "Index", "Questions", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" }) 
+    @Html.ActionLink("Edit", "Edit", "Projects", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" }) 
+    @Html.ActionLink("Back to List", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "btn btn-sm btn-primary" })
 </p>

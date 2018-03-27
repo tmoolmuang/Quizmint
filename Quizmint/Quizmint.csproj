@@ -314,11 +314,8 @@
     <Content Include="Views\AssignmentAnswers\Details.cshtml" />
     <Content Include="Views\AssignmentAnswers\Edit.cshtml" />
     <Content Include="Views\AssignmentAnswers\Index.cshtml" />
-    <Content Include="Views\Makers\Create.cshtml" />
-    <Content Include="Views\Makers\Delete.cshtml" />
     <Content Include="Views\Makers\Details.cshtml" />
     <Content Include="Views\Makers\Edit.cshtml" />
-    <Content Include="Views\Makers\Index.cshtml" />
     <Content Include="Views\Questions\Create.cshtml" />
     <Content Include="Views\Questions\Delete.cshtml" />
     <Content Include="Views\Questions\Details.cshtml" />

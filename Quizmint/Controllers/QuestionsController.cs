@@ -15,21 +15,16 @@ namespace Quizmint.Controllers
         private ShamuEntities db = new ShamuEntities();
 
         // GET: Questions
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var questions = db.Questions.Include(q => q.Project).Include(q => q.QuestionType);
-            return View(questions.ToList());
-        }
-
-        public ActionResult QuestionsByProject(int? id)
-        {
-            if (id == null)
+            // questions by project
+            if (id == null || Int32.Parse(Session["ProjectId"].ToString()) != id)
             {
-                return RedirectToAction("Index", "Projects");
-
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             var questions = db.Questions.Include(q => q.Project).Where(q => q.ProjectId == id).Include(q => q.QuestionType);
-            return View("Index", questions.ToList());
+            return View(questions.ToList());
         }
 
         // GET: Questions/Details/5
