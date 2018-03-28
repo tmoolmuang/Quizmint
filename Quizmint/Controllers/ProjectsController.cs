@@ -19,6 +19,8 @@ namespace Quizmint.Controllers
 
         public ActionResult Index(int? id)
         {
+            Session["ProjectId"] = null;
+
             //projects by maker
             if (id == null || Int32.Parse(Session["MakerId"].ToString()) != id)
             {

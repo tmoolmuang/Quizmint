@@ -342,6 +342,7 @@ namespace Quizmint.Controllers
         [Authorize]
         public ActionResult Details(int? id)
         {
+            Session["ProjectId"] = null;
             if (id == null || id != Int32.Parse(Session["MakerId"].ToString()))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
