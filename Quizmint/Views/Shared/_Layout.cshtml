@@ -1,66 +1,56 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Quizmint</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    <link href="@Url.Content("~/Styles/main.css")" rel="stylesheet" type="text/css" />
-    @RenderSection("Styles", false)
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - Quizmint</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/Scripts/main.js")
+        <link href="@Url.Content("~/Styles/main.css")" rel="stylesheet" type="text/css" />
+        @RenderSection("Styles", false)
+    </head>
     <body>
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href="/" class="navbar-brand">Quizmint</a>
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="navbar-collapse collapse" id="navbar-main">
-                    <ul class="nav navbar-nav">
-                        @if (Request.IsAuthenticated && Session["MakerId"] != null)
-                        {            
-                            <li>@Html.ActionLink("Projects", "Index", "Projects", new { id = Session["MakerId"] }, null)</li>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+            <a href="/" class="navbar-brand">Quizmint</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                            @*<li>@Html.ActionLink("Questions", "Index", "Questions")</li>
-                            <li>@Html.ActionLink("Answers", "Index", "Answers")</li>
-                            <li>@Html.ActionLink("Users", "Index", "Users")</li>
-                            <li>@Html.ActionLink("Assignments", "Index", "Assignments")</li>
-                            <li>@Html.ActionLink("AssignmentAnswers", "Index", "AssignmentAnswers")</li>*@
-                        }
-                    </ul>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mr-auto">
+                    @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                    {
+                        <li>@Html.ActionLink("Projects", "Index", "Projects", new { id = Session["MakerId"] }, null)</li>
+                    }
+                </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                <ul class="nav navbar-nav my-2 my-md-0">
+                    @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                    {
+                        <li class="mr-sm-2">@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Details", "Makers", new { id = Session["MakerId"] }, null)</li>
+                        <li class="my-2 my-sm-0">@Html.ActionLink("Logout", "Logout", "Makers")</li>
+                    }
+                    else
+                    {
+                        if (ViewContext.RouteData.Values["action"].ToString() != "Login")
                         {
-                            <li>@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Details", "Makers", new { id = Session["MakerId"] }, null)</li>
-                            <li>@Html.ActionLink("Logout", "Logout", "Makers")</li>
+                            <li class="mr-sm-2">@Html.ActionLink("Login", "Login", "Makers")</li>
                         }
-                        else
-                        {
-                            if (ViewContext.RouteData.Values["action"].ToString() != "Login")
-                            {
-                                <li>@Html.ActionLink("Login", "Login", "Makers")</li>
-                            }
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
+                    }
+                </ul>
+             </div>
+        </nav>
 
         <div class="container body-content">
             @if (Session["ProjectId"] != null)
             {
                 <div class="sidenav">
-                    @Html.ActionLink("Questions", "Index", "Questions", new { id = Session["ProjectId"] }, null)
+                    @Html.ActionLink("Questions", "Index", "Questions", new { id = Session["ProjectId"] }, new { @class = "dropdown-toggle" })
                 </div>
             }
             <div class="@(Session["ProjectId"] != null? "main" : "")">
-                 @RenderBody()
+                @RenderBody()
                 <hr />
                 <footer>
                     <p>&copy; @DateTime.Now.Year - Quizmint</p>

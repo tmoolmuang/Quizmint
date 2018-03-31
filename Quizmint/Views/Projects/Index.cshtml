@@ -1,16 +1,15 @@
 ﻿@model IEnumerable<Quizmint.Models.Project>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Projects";
 }
 
-<h2>Index</h2>
-
+<h3>Your Projects</h3>
 <p>
     @Html.ActionLink("Create New", "Create", "Projects", null, new { @class = "btn btn-sm btn-primary" })
 </p>
 <table class="table">
-    <tr>
+    @*<tr>
         <th>
             @Html.DisplayNameFor(model => model.ProjectName)
         </th>
@@ -21,19 +20,19 @@
             @Html.DisplayNameFor(model => model.Maker.FirstName)
         </th>
         <th></th>
-    </tr>
+    </tr>*@
 
 @foreach (var item in Model) {
     <tr>
         <td>
             @Html.ActionLink(item.ProjectName, "Details", "Projects", new { id = item.Id }, new { @class = "btn btn-link" })
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.QuestionCount)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Maker.FirstName)
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
         </td>

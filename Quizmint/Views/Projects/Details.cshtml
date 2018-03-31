@@ -4,10 +4,8 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
+<h3>Project Details</h3>
 <div>
-    <h4>Project</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,7 +16,7 @@
             @Html.DisplayFor(model => model.ProjectName)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.QuestionCount)
         </dt>
 
@@ -32,12 +30,12 @@
 
         <dd>
             @Html.DisplayFor(model => model.Maker.FirstName)
-        </dd>
+        </dd>*@
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Questions", "Index", "Questions", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" }) 
     @Html.ActionLink("Edit", "Edit", "Projects", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" }) 
-    @Html.ActionLink("Back to List", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "btn btn-sm btn-primary" })
+    @*@Html.ActionLink("Back to List", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "btn btn-sm btn-primary" })*@
 </p>

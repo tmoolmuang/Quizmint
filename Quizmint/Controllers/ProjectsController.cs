@@ -67,6 +67,7 @@ namespace Quizmint.Controllers
             project.MakerId = Int32.Parse(Session["MakerId"].ToString());
             if (ModelState.IsValid)
             {
+                project.CreatedDate = DateTime.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = project.Id });

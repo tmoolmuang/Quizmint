@@ -26,6 +26,7 @@ namespace Quizmint.Models
         public string QuestionText { get; set; }
         public int QuestionTypeId { get; set; }
         public Nullable<bool> IsTrue { get; set; }
+        public Nullable<int> NumberOfChoice { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }

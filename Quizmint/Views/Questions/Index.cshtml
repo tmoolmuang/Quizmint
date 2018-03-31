@@ -1,30 +1,15 @@
 ﻿@model IEnumerable<Quizmint.Models.Question>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Questions";
 }
 
-<h2>Index</h2>
+<h3>Qustion List for Project</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Questions", null, new { @class = "btn btn-sm btn-primary" })
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.QuestionText)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsTrue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Project.ProjectName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuestionType.Name)
-        </th>
-        <th></th>
-    </tr>
 
 @foreach (var item in Model) {
     <tr>
@@ -32,18 +17,11 @@
             @Html.DisplayFor(modelItem => item.QuestionText)
         </td>
         <td>
-            @Html.DisplayTextFor(modelItem => item.IsTrue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Project.ProjectName)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.QuestionType.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", "Questiond", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })
+            @Html.ActionLink("Delete", "Delete", "Questions", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
         </td>
     </tr>
 }

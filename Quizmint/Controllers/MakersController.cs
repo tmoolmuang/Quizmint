@@ -46,6 +46,9 @@ namespace Quizmint.Controllers
                 maker.Password = Encrypt.Hash(maker.Password);
                 maker.ConfirmPassword = Encrypt.Hash(maker.ConfirmPassword);
 
+                //Create now
+                maker.RegisteredDate = DateTime.Now;
+
                 //Save to database
                 db.Makers.Add(maker);
                 db.SaveChanges();
