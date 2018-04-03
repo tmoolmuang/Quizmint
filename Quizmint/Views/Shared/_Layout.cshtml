@@ -1,65 +1,181 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - Quizmint</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/Scripts/main.js")
-        <link href="@Url.Content("~/Styles/main.css")" rel="stylesheet" type="text/css" />
-        @RenderSection("Styles", false)
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-            <a href="/" class="navbar-brand">Quizmint</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - QuizMint</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/main.js")
+    @RenderSection("Styles", false)
+</head>
+<body>
 
-            <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav mr-auto">
-                    @if (Request.IsAuthenticated && Session["MakerId"] != null)
-                    {
-                        <li>@Html.ActionLink("Projects", "Index", "Projects", new { id = Session["MakerId"] }, null)</li>
-                    }
-                </ul>
-
-                <ul class="nav navbar-nav my-2 my-md-0">
-                    @if (Request.IsAuthenticated && Session["MakerId"] != null)
-                    {
-                        <li class="mr-sm-2">@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Details", "Makers", new { id = Session["MakerId"] }, null)</li>
-                        <li class="my-2 my-sm-0">@Html.ActionLink("Logout", "Logout", "Makers")</li>
-                    }
-                    else
-                    {
-                        if (ViewContext.RouteData.Values["action"].ToString() != "Login")
-                        {
-                            <li class="mr-sm-2">@Html.ActionLink("Login", "Login", "Makers")</li>
-                        }
-                    }
-                </ul>
-             </div>
-        </nav>
-
-        <div class="container body-content">
+    <nav class="navbar navbar-dark sticky-top bg-light flex-md-nowrap p-0">
+        <a href="@Url.Action("Index", "Home")" class="navbar-brand col-sm-3 col-md-2 mr-0 px-4">
+            <img src="~/images/qm-w.png" title="QuizMint" alt="title" width="100" height="25" />
+        </a>
+        <ul class="navbar-nav flex-row mr-auto px-3">
+            <li class="nav-item text-nowrap px-3">
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item text-nowrap px-3">
+                @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item text-nowrap px-3">
+                @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
+            </li>
             @if (Session["ProjectId"] != null)
             {
-                <div class="sidenav">
-                    @Html.ActionLink("Questions", "Index", "Questions", new { id = Session["ProjectId"] }, new { @class = "dropdown-toggle" })
-                </div>
+                <li class="text-nowrap px-3">(P: @Session["ProjectId"].ToString())</li>
             }
-            <div class="@(Session["ProjectId"] != null? "main" : "")">
-                @RenderBody()
-                <hr />
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - Quizmint</p>
-                </footer>
-            </div>
-        </div>
+            @if (Session["QuestionId"] != null)
+            {
+                <li class="text-nowrap px-3">(Q: @Session["QuestionId"].ToString())</li>
+            }
+        </ul>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            @if (Request.IsAuthenticated && Session["MakerId"] != null)
+            {
+                <li class="nav-item text-nowrap px-3">@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Details", "Makers", new { id = Session["MakerId"] }, new { @class = "nav-link" })</li>
+                <li class="nav-item text-nowrap px-3">@Html.ActionLink("Logout", "Logout", "Makers", null, new { @class = "nav-link" })</li>
+            }
+            else
+            {
+                if (ViewContext.RouteData.Values["action"].ToString() != "Login")
+                {
+                    <li class="nav-item text-nowrap px-3">@Html.ActionLink("Login", "Login", "Makers", null, new { @class = "nav-link" })</li>
+                }
+            }
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                        {
+                            <li class="nav-item">@Html.ActionLink("Projects", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "nav-link" })</li>
+                        }
+                        <li class="nav-item">
+                            @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="layers"></span>
+                                Integrations
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Saved reports</span>
+                        <a class="d-flex align-items-center text-muted" href="#">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Current month
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Last quarter
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Social engagement
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Year-end sale
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <div class="container body-content">
+                        @RenderBody()
+                        <hr />
+                        <footer>
+                            <p>&copy; @DateTime.Now.Year - QuizMint</p>
+                        </footer>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    @*<nav class="navbar navbar-expand-lg navbar-dark bg-light">
+        <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+            <img src="~/images/qm1.png" title="QuizMint" alt="additional title" width="100" height="25" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav mr-auto">
+                @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                {
+                    <li>@Html.ActionLink("Projects", "Index", "Projects", new { id = Session["MakerId"] }, null)</li>
+                }
+            </ul>
+
+            <ul class="nav navbar-nav my-2 my-md-0">
+                @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                {
+                    <li class="mr-sm-2">@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Details", "Makers", new { id = Session["MakerId"] }, null)</li>
+                    <li class="my-2 my-sm-0">@Html.ActionLink("Logout", "Logout", "Makers")</li>
+                }
+                else
+                {
+                    if (ViewContext.RouteData.Values["action"].ToString() != "Login")
+                    {
+                        <li class="mr-sm-2">@Html.ActionLink("Login", "Login", "Makers")</li>
+                    }
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @if (Session["ProjectId"] != null)
+        {
+            <div class="sidenav">
+                @Html.ActionLink("Questions", "Index", "Questions", new { id = Session["ProjectId"] }, new { @class = "dropdown-toggle" })
+            </div>
+        }
+        <div class="@(Session["ProjectId"] != null? "main" : "")">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Quizmint</p>
+            </footer>
+        </div>
+    </div>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
 </html>
