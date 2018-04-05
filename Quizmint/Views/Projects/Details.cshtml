@@ -5,6 +5,7 @@
 }
 
 <h3>Project Details</h3>
+
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -15,27 +16,9 @@
         <dd>
             @Html.DisplayFor(model => model.ProjectName)
         </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.QuestionCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.QuestionCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Maker.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Maker.FirstName)
-        </dd>*@
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Questions", "Index", "Questions", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" }) 
-    @Html.ActionLink("Edit", "Edit", "Projects", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" }) 
-    @*@Html.ActionLink("Back to List", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "btn btn-sm btn-primary" })*@
+    @Html.ActionLink("Edit", "Edit", "Projects", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" })
+    @Html.ActionLink("Question List", "Index", "Questions", new { id = Model.Id }, new { @class = "btn btn-sm btn-primary" })
 </p>

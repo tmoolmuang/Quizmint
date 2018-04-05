@@ -6,18 +6,15 @@
     ViewBag.Title = "Registration";
 }
 
-<h2>Registration</h2>
+<h3>Registration</h3>
 
 @if (ViewBag.StatusOK == null || ViewBag.StatusOK == false)
 {
     using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-
         <div class="form-horizontal">
-            <h4>Maker</h4>
             <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">

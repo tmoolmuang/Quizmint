@@ -5,38 +5,19 @@
 }
 
 <h3>Your Projects</h3>
+
 <p>
     @Html.ActionLink("Create New", "Create", "Projects", null, new { @class = "btn btn-sm btn-primary" })
 </p>
 <table class="table">
-    @*<tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProjectName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuestionCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Maker.FirstName)
-        </th>
-        <th></th>
-    </tr>*@
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.ProjectName, "Details", "Projects", new { id = item.Id }, new { @class = "btn btn-link" })
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.QuestionCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Maker.FirstName)
-        </td>*@
-        <td>
-            @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(item.ProjectName, "Details", "Projects", new { id = item.Id }, new { @class = "btn btn-link" })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
+            </td>
+        </tr>
+    }
 </table>
