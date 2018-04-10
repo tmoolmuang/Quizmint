@@ -230,6 +230,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="images\qm-w.png" />
+    <Content Include="images\qm.png" />
     <Content Include="Models\ModelQuizMint.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelQuizMint.edmx</DependentUpon>
