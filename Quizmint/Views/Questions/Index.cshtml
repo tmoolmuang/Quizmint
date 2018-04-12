@@ -4,14 +4,18 @@
     ViewBag.Title = "Questions";
 }
 
-<h3>Qustion List for Project</h3>
+<h4>Qustion List for @Session["ProjectName"]</h4>
 
 <p>
-    @Html.ActionLink("Create New", "Create", "Questions", null, new { @class = "btn btn-sm btn-primary" })
+    @Html.ActionLink("Create New Question", "Create", "Questions", null, new { @class = "btn btn-sm btn-primary" })
 </p>
 <table class="table">
-    @foreach (var item in Model) {
+    @for(int i=0; i<Model.Count(); i++) {
+        var item = Model.ElementAtOrDefault(i);
         <tr>
+            <td>
+                @(i+1)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.QuestionText)
             </td>

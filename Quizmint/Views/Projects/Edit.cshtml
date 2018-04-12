@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h3>Edit Project</h3>
+<h4>Edit Project</h4>
 
 @using (Html.BeginForm())
 {
@@ -14,9 +14,9 @@
         <hr />
         @Html.HiddenFor(model => model.Id)
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectName, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ProjectName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
             </div>
         </div>

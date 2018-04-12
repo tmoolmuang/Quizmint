@@ -4,24 +4,24 @@
     ViewBag.Title = "Create";
 }
 
-<h3>Create Question</h3>
+<h4>Create Question</h4>
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()    
     <div class="form-horizontal">
         <hr />
         <div class="form-group">
-            @Html.LabelFor(model => model.QuestionText, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.QuestionText, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.QuestionText, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.QuestionText, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.QuestionText, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.QuestionTypeId, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.QuestionTypeId, null, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("QuestionTypeId", null, htmlAttributes: new { @class = "form-control", @onchange = "showhide(this)" })
+                @Html.DropDownList("QuestionTypeId", null, new { @class = "form-control", @onchange = "showhide(this)" })
                 @Html.ValidationMessageFor(model => model.QuestionTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -42,7 +42,7 @@
 
         <div id="truefalse" style="display: none">
             <div class="form-group">
-                @Html.LabelFor(model => model.IsTrue, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.IsTrue, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.IsTrue)

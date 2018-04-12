@@ -10,15 +10,25 @@ using Quizmint.Models;
 
 namespace Quizmint.Controllers
 {
+    [Authorize]
     public class AnswersController : Controller
     {
         private ShamuEntities db = new ShamuEntities();
 
-        // GET: Answers
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var answers = db.Answers.Include(a => a.Question);
-            return View(answers.ToList());
+            //must have projectId, questionId set by session, and match with parameter
+            if (id == null || Session["ProjectId"] == null ||
+                Session["QuestionId"] == null ||
+                Int32.Parse(Session["QuestionId"].ToString()) != id)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //answers by question
+            List<Answer> answers = db.Answers.Include(a => a.Question).Where(a => a.QuestionId == id).ToList();
+            ViewBag.QuestionText = db.Questions.Find(id).QuestionText;
+            return View(answers);
         }
 
         // GET: Answers/Details/5
@@ -39,7 +49,14 @@ namespace Quizmint.Controllers
         // GET: Answers/Create
         public ActionResult Create()
         {
-            ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText");
+            //Session["AnswerId"] = null;
+
+            if (Session["QuestionId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText");
             return View();
         }
 
@@ -50,14 +67,15 @@ namespace Quizmint.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,QuestionId,AnswerText,IsCorrectAnswer")] Answer answer)
         {
+            answer.QuestionId = Int32.Parse(Session["QuestionId"].ToString());
             if (ModelState.IsValid)
             {
                 db.Answers.Add(answer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = answer.QuestionId });
             }
 
-            ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText", answer.QuestionId);
+            //ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText", answer.QuestionId);
             return View(answer);
         }
 

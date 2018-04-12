@@ -20,6 +20,7 @@ namespace Quizmint.Controllers
         public ActionResult Index(int? id)
         {
             Session["ProjectId"] = null;
+            Session["ProjectName"] = null;
 
             //projects by maker
             if (id == null || Int32.Parse(Session["MakerId"].ToString()) != id)
@@ -47,13 +48,15 @@ namespace Quizmint.Controllers
             }
 
             Session["ProjectId"] = id;
+            Session["ProjectName"] = project.ProjectName;
             return View(project);
         }
 
         // GET: Projects/Create
         public ActionResult Create()
         {
-            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName");
+            Session["ProjectId"] = null;
+            Session["ProjectName"] = null;
             return View();
         }
 
@@ -73,7 +76,6 @@ namespace Quizmint.Controllers
                 return RedirectToAction("Details", new { id = project.Id });
             }
 
-            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
             return View(project);
         }
 
@@ -89,7 +91,6 @@ namespace Quizmint.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
             return View(project);
         }
 
@@ -107,7 +108,6 @@ namespace Quizmint.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = project.Id });
             }
-            //ViewBag.MakerId = new SelectList(db.Makers, "Id", "FirstName", project.MakerId);
             return View(project);
         }
 

@@ -10,13 +10,13 @@ namespace Quizmint.Controllers
     {
         public ActionResult Index()
         {
-            Session["ProjectId"] = null;
+            ClearSessionProject();
             return View();
         }
 
         public ActionResult About()
         {
-            Session["ProjectId"] = null;
+            ClearSessionProject();
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -24,10 +24,17 @@ namespace Quizmint.Controllers
 
         public ActionResult Contact()
         {
-            Session["ProjectId"] = null;
+            ClearSessionProject();
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [NonAction]
+        public void ClearSessionProject()
+        {
+            Session["ProjectId"] = null;
+            Session["ProjectName"] = null;
         }
     }
 }

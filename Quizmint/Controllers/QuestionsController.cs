@@ -15,9 +15,10 @@ namespace Quizmint.Controllers
     {
         private ShamuEntities db = new ShamuEntities();
 
-        // GET: Questions
         public ActionResult Index(int? id)
         {
+            Session["QuestionId"] = null;
+
             //must have projectId set by session, and match with parameter
             if (id == null || Session["ProjectId"] == null || Int32.Parse(Session["ProjectId"].ToString()) != id)
             {
@@ -32,38 +33,20 @@ namespace Quizmint.Controllers
 
             // questions by project
             List<Question> questions = db.Questions.Include(q => q.Project).Where(q => q.ProjectId == id).Include(q => q.QuestionType).ToList();
-
-            Session["QuestionId"] = null;
             return View(questions);
         }
-
-        // GET: Questions/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Question question = db.Questions.Find(id);
-        //    if (question == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(question);
-        //}
 
         // GET: Questions/Create
         public ActionResult Create()
         {
+            Session["QuestionId"] = null;
+
             if (Session["ProjectId"] == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "ProjectName");
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name");
-
-            Session["QuestionId"] = null;
             return View();
         }
 
@@ -83,7 +66,6 @@ namespace Quizmint.Controllers
                 return RedirectToAction("Index", new { id = question.ProjectId });
             }
 
-            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "ProjectName", question.ProjectId);
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name", question.QuestionTypeId);
             return View(question);
         }
@@ -102,7 +84,6 @@ namespace Quizmint.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "ProjectName", question.ProjectId);
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name", question.QuestionTypeId);
 
             Session["QuestionId"] = id;
@@ -116,7 +97,6 @@ namespace Quizmint.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ProjectId,QuestionText,QuestionTypeId,IsTrue,NumberOfChoice")] Question question)
         {
-            //question.ProjectId = Int32.Parse(Session["ProjectId"].ToString());
             question.NumberOfChoice = question.QuestionTypeId != 1 ? null : question.NumberOfChoice;
             if (ModelState.IsValid)
             {
@@ -124,7 +104,6 @@ namespace Quizmint.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = question.ProjectId });
             }
-            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "ProjectName", question.ProjectId);
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name", question.QuestionTypeId);
             return View(question);
         }

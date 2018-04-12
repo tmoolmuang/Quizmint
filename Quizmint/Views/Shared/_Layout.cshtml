@@ -23,7 +23,9 @@
                 </li>
                 @if (Session["ProjectId"] != null)
                 {
-                    <li class="text-nowrap px-3">(P: @Session["ProjectId"].ToString())</li>
+                <li class="nav-item text-nowrap px-3">
+                    @Html.ActionLink(Session["ProjectName"].ToString(), "Details", "Projects", new { id = Session["ProjectId"] }, new { @class = "nav-link" })
+                </li>
                 }
                 @if (Session["QuestionId"] != null)
                 {
@@ -54,7 +56,14 @@
                         <ul class="nav flex-column px-2">
                             @if (Request.IsAuthenticated && Session["MakerId"] != null)
                             {
-                                <li class="nav-item">@Html.ActionLink("My Projects", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "nav-link" })</li>
+                                if (Session["ProjectId"] != null)
+                                {
+                                    <li class="nav-item">@Html.ActionLink("Question List", "Index", "Questions", new { id = Session["ProjectId"] }, new { @class = "nav-link" })</li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">@Html.ActionLink("My Projects", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "nav-link" })</li>
+                                }
                             }
                             @*<li class="nav-item">
                                 @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
