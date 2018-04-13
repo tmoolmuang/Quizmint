@@ -27,7 +27,6 @@ namespace Quizmint.Controllers
 
             //answers by question
             List<Answer> answers = db.Answers.Include(a => a.Question).Where(a => a.QuestionId == id).ToList();
-            ViewBag.QuestionText = db.Questions.Find(id).QuestionText;
             return View(answers);
         }
 
@@ -56,7 +55,6 @@ namespace Quizmint.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            //ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText");
             return View();
         }
 
@@ -75,7 +73,6 @@ namespace Quizmint.Controllers
                 return RedirectToAction("Index", new { id = answer.QuestionId });
             }
 
-            //ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText", answer.QuestionId);
             return View(answer);
         }
 
@@ -91,7 +88,6 @@ namespace Quizmint.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText", answer.QuestionId);
             return View(answer);
         }
 
@@ -106,9 +102,8 @@ namespace Quizmint.Controllers
             {
                 db.Entry(answer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = answer.QuestionId });
             }
-            ViewBag.QuestionId = new SelectList(db.Questions, "Id", "QuestionText", answer.QuestionId);
             return View(answer);
         }
 
@@ -135,7 +130,7 @@ namespace Quizmint.Controllers
             Answer answer = db.Answers.Find(id);
             db.Answers.Remove(answer);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = answer.QuestionId });
         }
 
         protected override void Dispose(bool disposing)

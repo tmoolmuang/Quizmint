@@ -16,22 +16,13 @@
             @Html.DisplayFor(model => model.QuestionText)
         </dd>
 
-         <dt>
-            @Html.DisplayNameFor(model => model.Project.ProjectName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.ProjectName)
-        </dd>
-
         <dt>
-           Question Type
+            @Html.DisplayNameFor(model => model.QuestionType.Name)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.QuestionType.Name)
         </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {

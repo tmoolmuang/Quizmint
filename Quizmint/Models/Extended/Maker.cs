@@ -31,6 +31,7 @@ namespace Quizmint.Models
         [MinLength(6, ErrorMessage ="Password should be at least 6 characters")]
         public string Password { get; set; }
 
+        [Display(Name = "Confirm Password")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please confirm password")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Confirm password do not match")]

@@ -13,7 +13,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.QuestionText, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.QuestionText, new { @class = "form-control" })
+                @Html.EditorFor(model => model.QuestionText, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.QuestionText, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -35,7 +35,8 @@
                                             {
                                                 new SelectListItem() { Text = "3", Value = "3" },
                                                 new SelectListItem() { Text = "4", Value = "4" }
-                                            })
+                                            },
+                                            new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -45,7 +46,7 @@
                 @Html.LabelFor(model => model.IsTrue, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <div class="checkbox">
-                        @Html.EditorFor(model => model.IsTrue)
+                        @Html.EditorFor(model => model.IsTrue, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.IsTrue, "", new { @class = "text-danger" })
                     </div>
                 </div>

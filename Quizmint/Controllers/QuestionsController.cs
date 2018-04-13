@@ -18,6 +18,7 @@ namespace Quizmint.Controllers
         public ActionResult Index(int? id)
         {
             Session["QuestionId"] = null;
+            Session["QuestionText"] = null;
 
             //must have projectId set by session, and match with parameter
             if (id == null || Session["ProjectId"] == null || Int32.Parse(Session["ProjectId"].ToString()) != id)
@@ -40,6 +41,7 @@ namespace Quizmint.Controllers
         public ActionResult Create()
         {
             Session["QuestionId"] = null;
+            Session["QuestionText"] = null;
 
             if (Session["ProjectId"] == null)
             {
@@ -87,6 +89,7 @@ namespace Quizmint.Controllers
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name", question.QuestionTypeId);
 
             Session["QuestionId"] = id;
+            Session["QuestionText"] = question.QuestionText;
             return View(question);
         }
 

@@ -181,9 +181,11 @@
       <DependentUpon>ModelQuizMint.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Encrypt.cs" />
+    <Compile Include="Models\Extended\Answer.cs" />
     <Compile Include="Models\Extended\Maker.cs" />
     <Compile Include="Models\Extended\Project.cs" />
     <Compile Include="Models\Extended\Question.cs" />
+    <Compile Include="Models\Extended\QuestionType.cs" />
     <Compile Include="Models\Maker.cs">
       <DependentUpon>ModelQuizMint.tt</DependentUpon>
     </Compile>

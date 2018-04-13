@@ -20,6 +20,9 @@ namespace Quizmint.Models
         public string QuestionText { get; set; }
 
         [Display(Name = "Answer")]
-        public bool IsTrue { get; set; }
+        public bool? IsTrue { get; set; }
+
+        [Display(Name = "Number of Answer Choice")]
+        public int? NumberOfChoice { get; set; }
     }
 }

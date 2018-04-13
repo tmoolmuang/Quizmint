@@ -27,10 +27,6 @@
                     @Html.ActionLink(Session["ProjectName"].ToString(), "Details", "Projects", new { id = Session["ProjectId"] }, new { @class = "nav-link" })
                 </li>
                 }
-                @if (Session["QuestionId"] != null)
-                {
-                    <li class="text-nowrap px-3">(Q: @Session["QuestionId"].ToString())</li>
-                }
             </ul>
 
             <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
