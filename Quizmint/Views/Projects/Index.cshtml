@@ -7,16 +7,34 @@
 <h4>My Projects</h4>
 
 <p>
-    @Html.ActionLink("Create New", "Create", "Projects", null, new { @class = "btn btn-sm btn-primary" })
+    <a href="@Url.Action("Create", "Projects")" class="btn btn-sm btn-primary">
+        <i class="fa fa-plus">&nbsp;</i>
+        Create new project
+    </a>
 </p>
 <table class="table">
-    @foreach (var item in Model) {
+    <tr>
+        <th>
+            Project Name
+        </th>
+        <th>
+            Create Date
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.ActionLink(item.ProjectName, "Details", "Projects", new { id = item.Id }, new { @class = "btn btn-link" })
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                <a href="@Url.Action("Delete", "Projects", new { id = item.Id })">
+                    <i class="fa fa-trash"></i>
+                </a>
             </td>
         </tr>
     }

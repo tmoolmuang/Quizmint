@@ -14,71 +14,72 @@ namespace Quizmint.Controllers.Api
         private ShamuEntities db = new ShamuEntities();
 
         //GET: api/projects
-        public IEnumerable<Project> GetProject()
+        public IEnumerable<Project> Get()
         {
             return db.Projects.ToList();
         }
 
         //GET: api/projects/1
-        public Project GetProject(int id)
+        public IHttpActionResult Get(int id)
         {
-            Project project = db.Projects.SingleOrDefault(p => p.Id == id);
+            Project project = db.Projects.Find(id);
 
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
-            return project;
+            return Ok(project);
         }
 
         //POST: api/projects
         [System.Web.Http.HttpPost]
-        public Project CreateProject(Project project)
+        public IHttpActionResult Create(Project project)
         {
             if (!ModelState.IsValid)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
             }
             else
             {
                 project.CreatedDate = DateTime.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();
-                return project;
+                return Ok(project);
             }
         }
 
         //PUT: api/projects/1
         [System.Web.Http.HttpPut]
-        public void UpdateProject(int id, Project project)
+        public IHttpActionResult Update(int id, Project project)
         {
             if (!ModelState.IsValid)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
             }
             else
             {
-                Project orgProject = db.Projects.SingleOrDefault(p => p.Id == id);
+                Project orgProject = db.Projects.Find(id);
                 if (orgProject == null)
                 {
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                    return NotFound();
                 }
                 else
                 {
                     orgProject.ProjectName = project.ProjectName;
                     db.SaveChanges();
+                    return Ok(orgProject);
                 }
             }
         }
 
         //DELETE: api/projects/1
         [System.Web.Http.HttpDelete]
-        public void DeleteProject(int id)
+        public IHttpActionResult Delete(int id)
         {
-            Project project = db.Projects.SingleOrDefault(p => p.Id == id);
+            Project project = db.Projects.Find(id);
             if (project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
             else
             {
@@ -94,6 +95,7 @@ namespace Quizmint.Controllers.Api
                 }
                 db.Projects.Remove(project);
                 db.SaveChanges();
+                return Ok();
             }
         }
     }
