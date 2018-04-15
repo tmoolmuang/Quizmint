@@ -7,7 +7,10 @@
 <h4>Question list for : @Session["ProjectName"]</h4>
 
 <p>
-    @Html.ActionLink("Create New Question", "Create", "Questions", null, new { @class = "btn btn-sm btn-primary" })
+    <a href="@Url.Action("Create", "Questions")" class="btn btn-sm btn-primary">
+        <i class="fa fa-plus">&nbsp;</i>
+        Create New Question
+    </a>
 </p>
 <table class="table">
     @for(int i=0; i<Model.Count(); i++) {
@@ -23,8 +26,13 @@
                 @Html.DisplayFor(modelItem => item.QuestionType.Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", "Questions", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })
-                @Html.ActionLink("Delete", "Delete", "Questions", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
+                <a href="@Url.Action("Edit", "Questions", new { id = item.Id })">
+                    <i class="fa fa-pencil" title="Edit"></i>
+                </a>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <a href="@Url.Action("Delete", "Questions", new { id = item.Id })">
+                    <i class="fa fa-trash-o" title="Delete"></i>
+                </a>
             </td>
         </tr>
     }

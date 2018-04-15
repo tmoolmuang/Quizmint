@@ -31,19 +31,19 @@ namespace Quizmint.Controllers
         }
 
         // GET: Answers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Answer answer = db.Answers.Find(id);
-            if (answer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(answer);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Answer answer = db.Answers.Find(id);
+        //    if (answer == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(answer);
+        //}
 
         // GET: Answers/Create
         public ActionResult Create()
@@ -79,6 +79,8 @@ namespace Quizmint.Controllers
         // GET: Answers/Edit/5
         public ActionResult Edit(int? id)
         {
+            //bool ownerCheck = Security.IsAnswerOwner((int)id);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

@@ -22,7 +22,7 @@
         @Html.AntiForgeryToken()
             <div class="form-actions no-color">
                 <input type="submit" value="Delete" class="btn btn-sm btn-danger" />
-                @Html.ActionLink("Cancel", "Index", "Projects", new { id = Session["MakerId"] }, new { @class = "btn btn-sm btn-primary" })
+                @Html.ActionLink("Cancel", "Index", "Projects", null, new { @class = "btn btn-sm btn-primary" })
             </div>
         }
 </div>

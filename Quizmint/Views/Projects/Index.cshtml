@@ -9,7 +9,7 @@
 <p>
     <a href="@Url.Action("Create", "Projects")" class="btn btn-sm btn-primary">
         <i class="fa fa-plus">&nbsp;</i>
-        Create new project
+        Create New Project
     </a>
 </p>
 <table class="table">
@@ -26,14 +26,18 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.ProjectName, "Details", "Projects", new { id = item.Id }, new { @class = "btn btn-link" })
+                @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
+                <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
+                    <i class="fa fa-pencil" title="Edit"></i>
+                </a>
+                <span>&nbsp;&nbsp;&nbsp;</span>
                 <a href="@Url.Action("Delete", "Projects", new { id = item.Id })">
-                    <i class="fa fa-trash"></i>
+                    <i class="fa fa-trash-o" title="Delete"></i>
                 </a>
             </td>
         </tr>

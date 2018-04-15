@@ -213,6 +213,7 @@
     <Compile Include="Models\QuestionType.cs">
       <DependentUpon>ModelQuizMint.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Helper.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>ModelQuizMint.tt</DependentUpon>
     </Compile>
