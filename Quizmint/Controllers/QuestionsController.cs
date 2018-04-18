@@ -20,16 +20,24 @@ namespace Quizmint.Controllers
             Session["QuestionId"] = null;
             Session["QuestionText"] = null;
 
-            //must have projectId set by session, and match with parameter
-            if (id == null || Session["ProjectId"] == null || Int32.Parse(Session["ProjectId"].ToString()) != id)
+            // 1. project id parameter must be provided
+            // 2. maker id session must exist, and maker must be owner of project
+
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-             //must prevent non-project owner to view
-            Project project = db.Projects.Find(id);
-            if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
+
+            if (Session["MakerId"] == null || !Helper.IsProjectOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            // when call from project index, project id has not been set into session
+            if (Session["ProjectId"] == null)
+            {
+                Session["ProjectId"] = id;
+                Session["ProjectName"] = db.Projects.Find(id).ProjectName;
             }
 
             // questions by project
@@ -43,9 +51,14 @@ namespace Quizmint.Controllers
             Session["QuestionId"] = null;
             Session["QuestionText"] = null;
 
+            if (Session["MakerId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Must login");
+            }
+
             if (Session["ProjectId"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Must define project id");
             }
 
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name");
@@ -57,7 +70,7 @@ namespace Quizmint.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ProjectId,QuestionText,QuestionTypeId,IsTrue,NumberOfChoice")] Question question)
+        public ActionResult Create([Bind(Include = "Id,QuestionText,QuestionTypeId,IsTrue,NumberOfChoice")] Question question)
         {
             question.ProjectId = Int32.Parse(Session["ProjectId"].ToString());
             question.NumberOfChoice = question.QuestionTypeId != 1 ? null : question.NumberOfChoice;
@@ -80,12 +93,19 @@ namespace Quizmint.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            //must prevent non-project owner to try to edit question
             Question question = db.Questions.Find(id);
-            if (question == null || question.Project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
+            if (question == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+
+            if (Session["MakerId"] == null || 
+                Session["ProjectId"] == null ||
+                !Helper.IsQuestionOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name", question.QuestionTypeId);
 
             Session["QuestionId"] = id;
@@ -119,11 +139,17 @@ namespace Quizmint.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            //must prevent non-project owner to try to delete question
             Question question = db.Questions.Find(id);
-            if (question == null || question.Project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
+            if (question == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
+            if (Session["MakerId"] == null ||
+                Session["ProjectId"] == null ||
+                !Helper.IsQuestionOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
             return View(question);
         }
@@ -133,9 +159,8 @@ namespace Quizmint.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //must prevent non-project owner to POST delete question directly
             Question question = db.Questions.Find(id);
-            if (question == null || question.Project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
+            if (question == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

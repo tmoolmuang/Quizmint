@@ -16,17 +16,14 @@
             </a>
             <ul class="navbar-nav flex-row mr-auto px-3">
                 <li class="nav-item text-nowrap px-3">
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item text-nowrap px-3">
                     @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item text-nowrap px-3">
                     @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
                 </li>
-                @if (Session["ProjectId"] != null)
-                {
-                <li class="nav-item text-nowrap px-3">
-                    @Html.ActionLink(Session["ProjectName"].ToString(), "Details", "Projects", new { id = Session["ProjectId"] }, new { @class = "nav-link" })
-                </li>
-                }
             </ul>
 
             <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
@@ -49,7 +46,7 @@
             <div class="row">
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
-                        <ul class="nav flex-column px-2">
+                        <ul class="navbar-nav flex-column px-2">
                             @if (Request.IsAuthenticated && Session["MakerId"] != null)
                             {
                                 if (Session["ProjectId"] != null)
@@ -61,51 +58,24 @@
                                     <li class="nav-item">@Html.ActionLink("My Projects", "Index", "Projects", null, new { @class = "nav-link" })</li>
                                 }
                             }
-                            @*<li class="nav-item">
-                                @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
-                            </li>
-                            <li class="nav-item">
-                                @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
-                            </li>*@ 
-                        </ul>
-
-                        @*<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted">
-                            <span>Saved reports</span>
-                            <a class="d-flex align-items-center text-muted" href="#">
-                                <span data-feather="plus-circle"></span>
-                            </a>
-                        </h6>
-                        <ul class="nav flex-column mb-2 px-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Current month
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Last quarter
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Social engagement
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Year-end sale
-                                </a>
-                            </li>
-                        </ul>*@
+                        </ul> 
                     </div>
                 </nav>
 
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+                    @if (Session["ProjectId"] != null)
+                    {
+                        <nav class="navbar navbar-dark bg-light flex-md-nowrap p-0">
+                            <ul class="navbar-nav flex-row mr-auto px-3">
+                                <li class="nav-item text-nowrap px-3">
+                                    @Html.ActionLink(Session["ProjectName"].ToString(), "Details", "Projects", new { id = Session["ProjectId"] }, new { @class = "nav-link" })
+                                </li>
+                            </ul>
+                        </nav>
+                    }
+
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <div class="container body-content">
                             @RenderBody()
                             <hr />

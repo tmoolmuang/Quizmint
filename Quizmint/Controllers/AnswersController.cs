@@ -30,21 +30,6 @@ namespace Quizmint.Controllers
             return View(answers);
         }
 
-        // GET: Answers/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Answer answer = db.Answers.Find(id);
-        //    if (answer == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(answer);
-        //}
-
         // GET: Answers/Create
         public ActionResult Create()
         {

@@ -32,6 +32,10 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
+                <a href="@Url.Action("Index", "Questions", new { id = item.Id })">
+                    <i class="fa fa-list-alt" title="Question List"></i>
+                </a>
+                <span>&nbsp;&nbsp;&nbsp;</span>
                 <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
                     <i class="fa fa-pencil" title="Edit"></i>
                 </a>
