@@ -41,5 +41,15 @@ namespace Quizmint.Models
 
             return db.Database.SqlQuery<Maker>(myQuery).Count() > 0 ? true : false; 
         }
+
+        public static void SetAllChoiceToFalse(int questionId, int answerId)
+        {
+            string myQuery =    "Update Answer " +
+                                "Set IsCorrectAnswer = 0 " +
+                                "Where Answer.QuestionId = " + questionId.ToString() + " " +
+                                "And Answer.Id != " + answerId.ToString();
+
+            db.Database.ExecuteSqlCommand(myQuery);
+        }
     }
 }

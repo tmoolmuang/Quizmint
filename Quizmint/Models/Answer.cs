@@ -17,7 +17,7 @@ namespace Quizmint.Models
         public int Id { get; set; }
         public int QuestionId { get; set; }
         public string AnswerText { get; set; }
-        public Nullable<bool> IsCorrectAnswer { get; set; }
+        public bool IsCorrectAnswer { get; set; }
     
         public virtual Question Question { get; set; }
     }

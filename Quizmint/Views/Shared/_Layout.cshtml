@@ -21,6 +21,10 @@
                 <li class="nav-item text-nowrap px-3">
                     @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
                 </li>
+                @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                {
+                    <li class="nav-item">@Html.ActionLink("My Projects", "Index", "Projects", null, new { @class = "nav-link" })</li>
+                }
                 <li class="nav-item text-nowrap px-3">
                     @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
                 </li>
@@ -47,7 +51,7 @@
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="navbar-nav flex-column px-2">
-                            @if (Request.IsAuthenticated && Session["MakerId"] != null)
+                            @*@if (Request.IsAuthenticated && Session["MakerId"] != null)
                             {
                                 if (Session["ProjectId"] != null)
                                 {
@@ -57,7 +61,7 @@
                                 {
                                     <li class="nav-item">@Html.ActionLink("My Projects", "Index", "Projects", null, new { @class = "nav-link" })</li>
                                 }
-                            }
+                            }*@
                         </ul> 
                     </div>
                 </nav>
@@ -71,6 +75,13 @@
                                 <li class="nav-item text-nowrap px-3">
                                     @Html.ActionLink(Session["ProjectName"].ToString(), "Details", "Projects", new { id = Session["ProjectId"] }, new { @class = "nav-link" })
                                 </li>
+                                @if (Session["QuestionId"] != null)
+                                {
+                                    <li class="nav-item mt-2 px-1">>></li>
+                                    <li class="nav-item text-nowrap px-3">
+                                        @Html.ActionLink(Session["QuestionText"].ToString(), "Edit", "Questions", new { id = Session["QuestionId"] }, new { @class = "nav-link" })
+                                    </li>  
+                                }
                             </ul>
                         </nav>
                     }

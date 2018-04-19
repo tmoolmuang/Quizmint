@@ -89,6 +89,11 @@ namespace Quizmint.Controllers
             {
                 db.Entry(answer).State = EntityState.Modified;
                 db.SaveChanges();
+
+                if (answer.IsCorrectAnswer)
+                {
+                    Helper.SetAllChoiceToFalse(answer.QuestionId, answer.Id);
+                }
                 return RedirectToAction("Index", new { id = answer.QuestionId });
             }
             return View(answer);

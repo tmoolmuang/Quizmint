@@ -17,7 +17,7 @@ namespace Quizmint.Models
         public string AnswerText { get; set; }
 
         [Display(Name = "Correct Answer")]
-        public bool? IsCorrectAnswer { get; set; }
+        public bool IsCorrectAnswer { get; set; }
     }
 
 
