@@ -30,11 +30,24 @@ namespace Quizmint.Controllers
             return View(answers);
         }
 
+        public ActionResult _index(int id)
+        {
+            List<Answer> answers = db.Answers.Include(a => a.Question).Where(a => a.QuestionId == id).ToList();
+            return PartialView(answers);
+        }
+
+        public ActionResult _delete(int id)
+        {
+            Answer answer = db.Answers.Find(id);
+            db.Answers.Remove(answer);
+            db.SaveChanges();
+
+            return RedirectToAction("index", new { id = answer.QuestionId });
+        }
+
         // GET: Answers/Create
         public ActionResult Create()
         {
-            //Session["AnswerId"] = null;
-
             if (Session["QuestionId"] == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -55,6 +68,10 @@ namespace Quizmint.Controllers
             {
                 db.Answers.Add(answer);
                 db.SaveChanges();
+                if (answer.IsCorrectAnswer)
+                {
+                    Helper.SetAllChoiceToFalse(answer.QuestionId, answer.Id);
+                }
                 return RedirectToAction("Index", new { id = answer.QuestionId });
             }
 
@@ -64,16 +81,22 @@ namespace Quizmint.Controllers
         // GET: Answers/Edit/5
         public ActionResult Edit(int? id)
         {
-            //bool ownerCheck = Security.IsAnswerOwner((int)id);
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Answer answer = db.Answers.Find(id);
             if (answer == null)
             {
                 return HttpNotFound();
+            }
+
+            if (Session["MakerId"] == null ||
+                Session["QuestionId"] == null ||
+                !Helper.IsAnswerOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
             return View(answer);
         }
@@ -97,33 +120,7 @@ namespace Quizmint.Controllers
                 return RedirectToAction("Index", new { id = answer.QuestionId });
             }
             return View(answer);
-        }
-
-        // GET: Answers/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Answer answer = db.Answers.Find(id);
-            if (answer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(answer);
-        }
-
-        // POST: Answers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Answer answer = db.Answers.Find(id);
-            db.Answers.Remove(answer);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { id = answer.QuestionId });
-        }
+        } 
 
         protected override void Dispose(bool disposing)
         {

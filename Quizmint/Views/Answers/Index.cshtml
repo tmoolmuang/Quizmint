@@ -8,9 +8,12 @@
 <h4>Answer choices for : @Session["QuestionText"]</h4>
 
 <p>
-    @Html.ActionLink("Add New Answer Choice", "Create", "Answers", null, new { @class = "btn btn-sm btn-primary" })
+    <a href="@Url.Action("Create", "Answers")" class="btn btn-sm btn-primary">
+        <i class="fa fa-plus">&nbsp;</i>
+        Add New Answer Choice
+    </a>
 </p>
-<table class="table">
+<table class="table table-sm">
     <tr>
         <th></th>
         <th>
@@ -25,22 +28,26 @@
     @for (int i = 0; i < Model.Count(); i++)
     {
         var item = Model.ElementAtOrDefault(i);
-    <tr>
-        <td><h5>@(x++).</h5></td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnswerText)
-        </td>
-        <td>
-            @if (item.IsCorrectAnswer != null)
-            {
-                @item.IsCorrectAnswer
-            }
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", "Answers", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
-        </td>
-    </tr>
+        <tr>
+            <td><h5>@(x++).</h5></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerText)
+            </td>
+            <td>
+                @if (item.IsCorrectAnswer)
+                {
+                    @Html.CheckBoxFor(m => item.IsCorrectAnswer, new { @disabled = "disabled" })
+                }
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "Answers", new { id = item.Id })">
+                    <i class="fa fa-pencil" title="Edit"></i>
+                </a>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <a href="@Url.Action("_delete", "Answers", new { id = item.Id })" onclick="return confirm('Are you sure you want to delete this?')">
+                    <i class="fa fa-trash-o" title="Delete"></i>
+                </a>
+            </td>
+        </tr>
     }
-
 </table>
