@@ -17,7 +17,7 @@ namespace Quizmint.Controllers
         public ActionResult About()
         {
             ClearSessionProject();
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Making quiz more enjoyable";
 
             return View();
         }
@@ -25,7 +25,7 @@ namespace Quizmint.Controllers
         public ActionResult Contact()
         {
             ClearSessionProject();
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Questions or comments";
 
             return View();
         }
