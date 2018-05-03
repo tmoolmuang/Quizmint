@@ -273,35 +273,24 @@ namespace Quizmint.Controllers
             var verifyUrl = "/Makers/VerifyAccount/" + activationCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress(ConfigurationManager.AppSettings["adminEmail"],
-                                            ConfigurationManager.AppSettings["adminName"]);
+            string adminEmail = Properties.Settings.Default.adminEmail;
+            string adminName = Properties.Settings.Default.adminName;
+            string adminPassword = Properties.Settings.Default.adminPassword;
+
+            var fromEmail = new MailAddress(adminEmail, adminName);
             var toEmail = new MailAddress(email);
-            var fromEmailPassword = ConfigurationManager.AppSettings["adminPassword"];
-            //var fromEmail = new MailAddress(Environment.GetEnvironmentVariable("APPSETTING_adminEmail"),
-            //                    Environment.GetEnvironmentVariable("APPSETTING_adminName"));
-            //var toEmail = new MailAddress(email);
-            //var fromEmailPassword = Environment.GetEnvironmentVariable("APPSETTING_adminPassword");
-            var subject = "You Quizmint account has been created!";
-            string body = "<br />Please click link below to verify your account" +
+            var fromEmailPassword = adminPassword;
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(adminEmail, adminName);
+            mail.To.Add(email);
+            mail.Subject = "You Quizmint account has been created!";
+            mail.Body = "<br />Please click link below to verify your account" +
                 "<br /><br /><a href='" + link + "'>" + link + "</a>";
-
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
-            };
-
-            using (var message = new MailMessage(fromEmail, toEmail)
-            {
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
-            })
-                smtp.Send(message);
+            mail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.1and1.com");
+            smtp.Credentials = new NetworkCredential(adminEmail, adminPassword);
+            smtp.Send(mail);
         }
 
         [NonAction]
@@ -310,35 +299,24 @@ namespace Quizmint.Controllers
             var verifyUrl = "/Makers/VerifyResetPassword/" + passwordResetCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress(ConfigurationManager.AppSettings["adminEmail"],
-                                            ConfigurationManager.AppSettings["adminName"]);
+            string adminEmail = Properties.Settings.Default.adminEmail;
+            string adminName = Properties.Settings.Default.adminName;
+            string adminPassword = Properties.Settings.Default.adminPassword;
+
+            var fromEmail = new MailAddress(adminEmail, adminName);
             var toEmail = new MailAddress(email);
-            var fromEmailPassword = ConfigurationManager.AppSettings["adminPassword"];
-            //var fromEmail = new MailAddress(Environment.GetEnvironmentVariable("APPSETTING_adminEmail"),
-            //        Environment.GetEnvironmentVariable("APPSETTING_adminName"));
-            //var toEmail = new MailAddress(email);
-            //var fromEmailPassword = Environment.GetEnvironmentVariable("APPSETTING_adminPassword");
-            var subject = "Request for password reset";
-            string body = "<br />Please click link below to reset your password" +
+            var fromEmailPassword = adminPassword;
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(adminEmail, adminName);
+            mail.To.Add(email);
+            mail.Subject = "Request for password reset";
+            mail.Body = "<br />Please click link below to reset your password" +
                 "<br /><br /><a href='" + link + "'>" + link + "</a>";
-
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
-            };
-
-            using (var message = new MailMessage(fromEmail, toEmail)
-            {
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
-            })
-                smtp.Send(message);
+            mail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.1and1.com");
+            smtp.Credentials = new NetworkCredential(adminEmail, adminPassword);
+            smtp.Send(mail);
         }
 
         // GET: Makers/Details/5
@@ -399,33 +377,6 @@ namespace Quizmint.Controllers
 
             ViewBag.Message = message;
             return View();
-         }
-
-        //// GET: Makers/Delete/5
-        //[Authorize]
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Maker maker = db.Makers.Find(id);
-        //    if (maker == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(maker);
-        //}
-
-        //// POST: Makers/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Maker maker = db.Makers.Find(id);
-        //    db.Makers.Remove(maker);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        }   
     }
 }

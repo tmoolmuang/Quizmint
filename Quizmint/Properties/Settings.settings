@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Quizmint.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="adminEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin@quizmint.net</Value>
+    </Setting>
+    <Setting Name="adminName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Quizmint Registration</Value>
+    </Setting>
+    <Setting Name="adminPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">jcpen5jcpen5</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
