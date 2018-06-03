@@ -14,7 +14,7 @@
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
 
-        <nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0">
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
             <a href="@Url.Action("Index", "Home")" class="navbar-brand col-sm-3 col-md-2 mr-0 px-5">
                 <img src="~/images/qm.png" title="QuizMint" alt="title" width="100" height="25" />
             </a>
@@ -52,7 +52,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-primary sidebar">
+                <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
                     <div class="sidebar-sticky">
                         <ul class="navbar-nav flex-column px-2">
                             @*@if (Request.IsAuthenticated && Session["MakerId"] != null)
@@ -74,7 +74,7 @@
 
                     @if (Session["ProjectId"] != null)
                 {
-                    <nav class="navbar navbar-dark bg-primary flex-md-nowrap p-0">
+                    <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0">
                         <ul class="navbar-nav flex-row mr-auto px-3">
                             <li class="nav-item text-nowrap px-3">
                                 @Html.ActionLink(Session["ProjectName"].ToString(), "Details", "Projects", new { id = Session["ProjectId"] }, new { @class = "nav-link" })
