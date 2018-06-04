@@ -1,4 +1,4 @@
-# Quizmint
+# QuizMint
 
 QuizMint is an online quiz maker that allows teachers or instructors to create quiz and let the students take it online. 
 Once a quiz is created the project link is sent to all students via email. 
