@@ -56,7 +56,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProjectName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProjectDescription" Type="nvarchar(max)" />
           <Property Name="MakerId" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
@@ -287,12 +288,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MakerId" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Assignments" Relationship="Self.FK_Assignment_Project" FromRole="Project" ToRole="Assignment" />
           <NavigationProperty Name="Maker" Relationship="Self.FK_Project_Maker" FromRole="Project" ToRole="Maker" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_Question_Project" FromRole="Project" ToRole="Question" />
+          <Property Name="ProjectDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
@@ -524,6 +526,7 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="ShamuModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="MakerId" ColumnName="MakerId" />
