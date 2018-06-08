@@ -32,11 +32,8 @@ namespace Quizmint.Controllers
             return View(projects.ToList());
         }
 
-        // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
-            // 1. project id parameter must be provided
-            // 2. project record must exist in db, and viewer must be project owner
             Session["QuestionId"] = null;
             Session["QuestionText"] = null;
 
@@ -48,35 +45,22 @@ namespace Quizmint.Controllers
             Project project = db.Projects.Find(id);
             if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-
-            //if (Session["MakerId"] == null || !Helper.IsProjectOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            //}
 
             Session["ProjectId"] = id;
             Session["ProjectName"] = project.ProjectName;
             return View(project);
         }
 
-        // GET: Projects/Create
         public ActionResult Create()
         {
             Session["ProjectId"] = null;
             Session["ProjectName"] = null;
 
-            //if (Session["MakerId"] == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Must login");
-            //}
             return View();
         }
 
-        // POST: Projects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectName,ProjectDescription")] Project project)
@@ -92,7 +76,6 @@ namespace Quizmint.Controllers
             return View(project);
         }
 
-        // GET: Projects/Edit/5
         public ActionResult Edit(int? id)
         {
             Session["QuestionId"] = null;
@@ -106,24 +89,16 @@ namespace Quizmint.Controllers
             Project project = db.Projects.Find(id);
             if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
-            //if (Session["MakerId"] == null || !Helper.IsProjectOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            //}
             return View(project);
         }
 
-        // POST: Projects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Project project)
         {
-            //project.MakerId = Int32.Parse(Session["MakerId"].ToString());
             if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;
@@ -133,7 +108,6 @@ namespace Quizmint.Controllers
             return View(project);
         }
 
-        // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
             Session["QuestionId"] = null;
@@ -147,19 +121,14 @@ namespace Quizmint.Controllers
             Project project = db.Projects.Find(id);
             if (project == null || project.MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
-            //if (Session["MakerId"] == null || !Helper.IsProjectOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            //}
             Session["ProjectId"] = id;
             Session["ProjectName"] = project.ProjectName;
             return View(project);
         }
 
-        // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

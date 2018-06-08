@@ -17,8 +17,8 @@ namespace Quizmint.Controllers
 
         public ActionResult Index(int? id)
         {
-            //must have projectId, questionId set by session, and match with parameter
-            if (id == null || Session["ProjectId"] == null ||
+            if (id == null || 
+                Session["ProjectId"] == null ||
                 Session["QuestionId"] == null ||
                 Int32.Parse(Session["QuestionId"].ToString()) != id)
             {
@@ -45,23 +45,29 @@ namespace Quizmint.Controllers
             return RedirectToAction("index", new { id = answer.QuestionId });
         }
 
-        // GET: Answers/Create
         public ActionResult Create()
         {
+            if (Session["MakerId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Must login");
+            }
+
+            if (Session["ProjectId"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Must define project id");
+            }
+
             if (Session["QuestionId"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Must define question id");
             }
 
             return View();
         }
 
-        // POST: Answers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,QuestionId,AnswerText,IsCorrectAnswer")] Answer answer)
+        public ActionResult Create([Bind(Include = "AnswerText,IsCorrectAnswer")] Answer answer)
         {
             answer.QuestionId = Int32.Parse(Session["QuestionId"].ToString());
             if (ModelState.IsValid)
@@ -78,7 +84,6 @@ namespace Quizmint.Controllers
             return View(answer);
         }
 
-        // GET: Answers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,20 +98,20 @@ namespace Quizmint.Controllers
             }
 
             if (Session["MakerId"] == null ||
+                Session["ProjectId"] == null ||
                 Session["QuestionId"] == null ||
-                !Helper.IsAnswerOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+                Int32.Parse(Session["MakerId"].ToString()) != answer.Question.Project.MakerId ||
+                Int32.Parse(Session["ProjectId"].ToString()) != answer.Question.Project.Id ||
+                Int32.Parse(Session["QuestionId"].ToString()) != answer.Question.Id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
             return View(answer);
         }
 
-        // POST: Answers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,QuestionId,AnswerText,IsCorrectAnswer")] Answer answer)
+        public ActionResult Edit(Answer answer)
         {
             if (ModelState.IsValid)
             {
@@ -120,7 +125,7 @@ namespace Quizmint.Controllers
                 return RedirectToAction("Index", new { id = answer.QuestionId });
             }
             return View(answer);
-        } 
+        }
 
         protected override void Dispose(bool disposing)
         {

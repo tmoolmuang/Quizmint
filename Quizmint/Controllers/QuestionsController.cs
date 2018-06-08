@@ -20,20 +20,19 @@ namespace Quizmint.Controllers
             Session["QuestionId"] = null;
             Session["QuestionText"] = null;
 
-            // 1. project id parameter must be provided
-            // 2. maker id session must exist, and maker must be owner of project
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if (Session["MakerId"] == null || !Helper.IsProjectOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+            if (Session["MakerId"] == null || 
+                db.Projects.Find(id).MakerId != Int32.Parse(Session["MakerId"].ToString()))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
-            // when call from project index, project id has not been set into session
+            // when call question list from project index, project id has not been set into session yet,
+            // needed for Title bar
             if (Session["ProjectId"] == null)
             {
                 Session["ProjectId"] = id;
@@ -45,7 +44,6 @@ namespace Quizmint.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Create
         public ActionResult Create()
         {
             Session["QuestionId"] = null;
@@ -65,12 +63,9 @@ namespace Quizmint.Controllers
             return View();
         }
 
-        // POST: Questions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,QuestionText,QuestionTypeId,IsTrue,NumberOfChoice")] Question question)
+        public ActionResult Create([Bind(Include = "QuestionText,QuestionTypeId,IsTrue,NumberOfChoice")] Question question)
         {
             question.ProjectId = Int32.Parse(Session["ProjectId"].ToString());
             question.NumberOfChoice = question.QuestionTypeId != 1 ? null : question.NumberOfChoice;
@@ -85,7 +80,6 @@ namespace Quizmint.Controllers
             return View(question);
         }
 
-        // GET: Questions/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -99,9 +93,10 @@ namespace Quizmint.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            if (Session["MakerId"] == null || 
+            if (Session["MakerId"] == null ||
                 Session["ProjectId"] == null ||
-                !Helper.IsQuestionOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+                Int32.Parse(Session["ProjectId"].ToString()) != question.Project.Id ||
+                Int32.Parse(Session["MakerId"].ToString()) != question.Project.MakerId)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
@@ -113,12 +108,9 @@ namespace Quizmint.Controllers
             return View(question);
         }
 
-        // POST: Questions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectId,QuestionText,QuestionTypeId,IsTrue,NumberOfChoice")] Question question)
+        public ActionResult Edit(Question question)
         {
             question.NumberOfChoice = question.QuestionTypeId != 1 ? null : question.NumberOfChoice;
             if (ModelState.IsValid)
@@ -127,11 +119,11 @@ namespace Quizmint.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = question.ProjectId });
             }
+
             ViewBag.QuestionTypeId = new SelectList(db.QuestionTypes, "Id", "Name", question.QuestionTypeId);
             return View(question);
         }
 
-        // GET: Questions/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -147,22 +139,30 @@ namespace Quizmint.Controllers
 
             if (Session["MakerId"] == null ||
                 Session["ProjectId"] == null ||
-                !Helper.IsQuestionOwner(Int32.Parse(Session["MakerId"].ToString()), (int)id))
+                Int32.Parse(Session["ProjectId"].ToString()) != question.Project.Id ||
+                Int32.Parse(Session["MakerId"].ToString()) != question.Project.MakerId)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
+
             return View(question);
         }
 
-        // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // cascade delete related answers
             Question question = db.Questions.Find(id);
             if (question == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Answer[] answers = db.Answers.Where(a => a.QuestionId == id).ToArray();
+            foreach (Answer a in answers)
+            {
+                db.Answers.Remove(a);
             }
 
             db.Questions.Remove(question);
