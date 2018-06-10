@@ -273,9 +273,13 @@ namespace Quizmint.Controllers
             var verifyUrl = "/Makers/VerifyAccount/" + activationCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            string adminEmail = Properties.Settings.Default.adminEmail;
-            string adminName = Properties.Settings.Default.adminName;
-            string adminPassword = Properties.Settings.Default.adminPassword;
+            //string adminEmail = Properties.Settings.Default.adminEmail;
+            //string adminName = Properties.Settings.Default.adminName;
+            //string adminPassword = Properties.Settings.Default.adminPassword;
+
+            string adminEmail = ConfigurationManager.AppSettings["adminEmail"];
+            string adminName = ConfigurationManager.AppSettings["adminName"];
+            string adminPassword = ConfigurationManager.AppSettings["adminPassword"];
 
             var fromEmail = new MailAddress(adminEmail, adminName);
             var toEmail = new MailAddress(email);
@@ -299,9 +303,13 @@ namespace Quizmint.Controllers
             var verifyUrl = "/Makers/VerifyResetPassword/" + passwordResetCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            string adminEmail = Properties.Settings.Default.adminEmail;
-            string adminName = Properties.Settings.Default.adminName;
-            string adminPassword = Properties.Settings.Default.adminPassword;
+            //string adminEmail = Properties.Settings.Default.adminEmail;
+            //string adminName = Properties.Settings.Default.adminName;
+            //string adminPassword = Properties.Settings.Default.adminPassword;
+
+            string adminEmail = ConfigurationManager.AppSettings["adminEmail"];
+            string adminName = ConfigurationManager.AppSettings["adminName"];
+            string adminPassword = ConfigurationManager.AppSettings["adminPassword"];
 
             var fromEmail = new MailAddress(adminEmail, adminName);
             var toEmail = new MailAddress(email);

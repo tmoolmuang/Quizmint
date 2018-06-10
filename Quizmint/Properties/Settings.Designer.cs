@@ -22,32 +22,5 @@ namespace Quizmint.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("admin@quizmint.net")]
-        public string adminEmail {
-            get {
-                return ((string)(this["adminEmail"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Quizmint Registration")]
-        public string adminName {
-            get {
-                return ((string)(this["adminName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("jcpen5jcpen5")]
-        public string adminPassword {
-            get {
-                return ((string)(this["adminPassword"]));
-            }
-        }
     }
 }
